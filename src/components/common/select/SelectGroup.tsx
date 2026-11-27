@@ -27,6 +27,8 @@ function SelectGroup({ label, errorMessage, id, registerObj, options, ...x }: Pr
                         {option.text}
                     </option>
                 ))}
+                <option value={"USER"}>회원</option>
+                <option value={"ADMIN"}>관리자</option>
             </Select>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </Group>
