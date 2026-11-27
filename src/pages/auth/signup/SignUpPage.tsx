@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import InputGroup from "../../../components/common/input/InputGroup.tsx";
 import { useForm } from "react-hook-form";
 import { type CreateUserInputType, createUserSchema } from "../../../schemas/auth/signUpSchema.ts";
@@ -9,47 +8,13 @@ import Button from "../../../components/common/button/Button.tsx";
 import { useNavigate } from "react-router";
 import axiosInstance from "../../../api/axiosInstance.ts";
 import * as axios from "axios";
-
-const AuthContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const AuthFormCard = styled.form`
-    width: 100%;
-    max-width: 480px;
-    background-color: ${props => props.theme.color.background.paper};
-    border-radius: 16px;
-    border: 1px solid ${props => props.theme.color.divider};
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-`;
-
-const AuthTitle = styled.h1`
-    font-size: 28px;
-    font-weight: 800;
-    color: ${props => props.theme.color.primary};
-    text-align: center;
-    margin-bottom: -15px;
-`;
-
-const AuthSubTitle = styled.h6`
-    font-size: 15px;
-    color: ${props => props.theme.color.text.disabled};
-    text-align: center;
-    margin-bottom: 32px;
-`;
-
-const AuthRootErrorMessage = styled.p`
-    font-size: 14px;
-    text-align: center;
-    color: ${props => props.theme.color.error};
-    font-weight: 500;
-    margin-bottom: 50px;
-`;
+import {
+    AuthContainer,
+    AuthFormCard,
+    AuthRootErrorMessage,
+    AuthSubTitle,
+    AuthTitle,
+} from "../../../styles/AuthStyles.tsx";
 
 function SignUpPage() {
     const navigate = useNavigate();

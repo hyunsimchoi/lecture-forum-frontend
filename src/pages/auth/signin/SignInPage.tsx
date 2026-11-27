@@ -1,60 +1,67 @@
-import styled from "styled-components";
-import InputGroup from "../../../components/common/input/InputGroup.tsx";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import {
+    AuthContainer,
+    AuthFormCard,
+    AuthRootErrorMessage,
+    AuthSubTitle,
+    AuthTitle,
+} from "../../../styles/AuthStyles.tsx";
+import InputGroup from "../../../components/common/input/InputGroup.tsx";
+import Button from "../../../components/common/button/Button.tsx";
+import { type LoginInputType, loginSchema } from "../../../schemas/auth/loginSchema.ts";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const AuthContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
+function SignInPage() {
+    const navigate = useNavigate();
 
-const AuthFormCard = styled.form`
-    width: 100%;
-    max-width: 480px;
-    background-color: ${props => props.theme.color.background.paper};
-    border-radius: 16px;
-    border: 1px solid ${props => props.theme.color.divider};
-    padding: 40px 20px;
-`;
-
-const AuthTitle = styled.h1`
-    font-size: 28px;
-    font-weight: 800;
-    color: ${props => props.theme.color.primary};
-    margin-bottom: 8px;
-    text-align: center;
-`;
-
-const AuthSubTitle = styled.h6`
-    font-size: 15px;
-    color: ${props => props.theme.color.text.disabled};
-    text-align: center;
-    margin-bottom: 32px;
-`;
-
-type SignUpInput = {
-    username: string;
-    password: string;
-    nickname: string;
-};
-
-function SignUpPage() {
     const {
         register,
         handleSubmit,
-        formState: { errors },
-    } = useForm<SignUpInput>();
+        setError,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginInputType>({
+        resolver: zodResolver(loginSchema),
+        mode: "onBlur",
+    });
+
+    const onSubmit = async (input: LoginInputType) => {
+        try {
+        } catch (error) {}
+    };
 
     return (
         <AuthContainer>
-            <AuthFormCard>
-                <AuthTitle>회원가입</AuthTitle>
-                <AuthSubTitle>토론대난투에 오신 것을 환영합니다!</AuthSubTitle>
-                <InputGroup label={"아이디"} registerObj={register("username")} />
-                <InputGroup label={"비밀번호"} errorMessage={"에러메세지222"} type={"password"} />
+            <AuthFormCard onSubmit={handleSubmit(onSubmit)}>
+                <AuthTitle>로그인</AuthTitle>
+                <AuthSubTitle>다시 오신 것을 환영합니다!</AuthSubTitle>
+                <InputGroup
+                    label={"아이디"}
+                    registerObj={register("username")}
+                    errorMessage={errors.username?.message}
+                    placeholder={"아이디를 입력해주세요"}
+                />
+                <InputGroup
+                    label={"비밀번호"}
+                    type={"password"}
+                    registerObj={register("password")}
+                    errorMessage={errors.password?.message}
+                    placeholder={"비밀번호를 입력해주세요"}
+                />
+                {errors.root && <AuthRootErrorMessage>{errors.root.message}</AuthRootErrorMessage>}
+                <Button
+                    color={"primary"}
+                    variant={"contained"}
+                    type={"submit"}
+                    disabled={isSubmitting}>
+                    로그인
+                </Button>
+                <Button color={"secondary"} variant={"contained"} as={Link} to={"/auth/signup"}>
+                    회원가입
+                </Button>
             </AuthFormCard>
         </AuthContainer>
     );
 }
 
-export default SignUpPage;
+export default SignInPage;
